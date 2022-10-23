@@ -29,14 +29,7 @@ await server.start();
 // integrate our Apollo server with the Express application as middleware
 server.applyMiddleware({ app });
 
-// Serve up static assets
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-}
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
 
 db.once('open', () => {
     app.listen(PORT, () => {
@@ -49,3 +42,12 @@ db.once('open', () => {
 
 // Call the async function to start the server
 startApolloServer(typeDefs, resolvers);
+
+// Serve up static assets
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
